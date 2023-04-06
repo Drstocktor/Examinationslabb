@@ -5,11 +5,12 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "customers")
 public class User {
-
-    private UserType userType;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private UserType userType;
+    private String username;
+
 
     public void setId(Long id) {
         this.id = id;
