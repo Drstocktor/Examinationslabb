@@ -11,6 +11,7 @@ public class Book {
 
     private String title;
     private String author;
+    private int price;
 
     public void setId(Long id) {
         this.id = id;
@@ -34,5 +35,13 @@ public class Book {
 
     public void setAuthor(String author) {
         this.author = author;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
     }
 }

@@ -10,6 +10,7 @@ public class Movie {
     private Long id;
     private String title;
     private int releaseYear;
+    private int price;
 
     public void setId(Long id) {
         this.id = id;
@@ -33,5 +34,13 @@ public class Movie {
 
     public void setReleaseYear(int releaseYear) {
         this.releaseYear = releaseYear;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
     }
 }
