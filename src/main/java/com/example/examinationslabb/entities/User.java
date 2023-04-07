@@ -12,7 +12,7 @@ public class User {
     private Long id;
     private UserType userType;
     private String username;
-
+    private String password;
     @OneToMany
     private List<Order> orders;
 
@@ -39,5 +39,21 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public List<com.example.examinationslabb.entities.Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<com.example.examinationslabb.entities.Order> orders) {
+        this.orders = orders;
     }
 }
