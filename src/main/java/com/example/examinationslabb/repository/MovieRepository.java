@@ -1,6 +1,6 @@
 package com.example.examinationslabb.repository;
 
-import com.example.examinationslabb.entities.Movie;
+import com.example.examinationslabb.model.Movie;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

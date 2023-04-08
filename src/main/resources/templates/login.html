@@ -1,21 +1,58 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .form-signin {
+            width: 100%;
+            max-width: 330px;
+            padding: 15px;
+            margin: auto;
+        }
+
+        .form-signin .form-control {
+            position: relative;
+            box-sizing: border-box;
+            height: auto;
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        .form-signin input[type="text"], .form-signin input[type="password"] {
+            margin-bottom: 10px;
+        }
+
+        .form-signin input[type="submit"] {
+            background-color: #007bff;
+            border-color: #007bff;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .form-signin input[type="submit"]:hover {
+            background-color: #0069d9;
+            border-color: #0062cc;
+        }
+    </style>
 </head>
 <body>
-<h1>Login</h1>
-<form th:action="@{/login}" method="post">
-    <div>
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username"/>
-    </div>
-    <div>
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password"/>
-    </div>
-    <button type="submit">Login</button>
-</form>
+<div class="container">
+    <form th:action="@{/login}" method="post" class="form-signin">
+        <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+        <label for="inputUsername" class="sr-only">Username</label>
+        <input type="text" id="inputUsername" name="username" class="form-control" placeholder="Username" required autofocus>
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password" required>
+        <input type="submit" class="btn btn-lg btn-primary btn-block" value="Sign in">
+    </form>
+</div>
 </body>
 </html>

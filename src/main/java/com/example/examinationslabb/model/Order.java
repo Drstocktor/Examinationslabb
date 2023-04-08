@@ -1,8 +1,9 @@
-package com.example.examinationslabb.entities;
+package com.example.examinationslabb.model;
 
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -19,6 +20,8 @@ public class Order {
     @OneToMany
     List<Game> gamesOrdered;
     private int totalPrice;
+    private LocalDateTime placedOn;
+    private boolean isPaid;
 
 
     public void setId(Long id) {
@@ -59,6 +62,14 @@ public class Order {
 
     public void setTotalPrice(int totalPrice) {
         this.totalPrice = totalPrice;
+    }
+
+    public LocalDateTime getPlacedOn() {
+        return placedOn;
+    }
+
+    public void setPlacedOn(LocalDateTime placedOn) {
+        this.placedOn = placedOn;
     }
 
 }

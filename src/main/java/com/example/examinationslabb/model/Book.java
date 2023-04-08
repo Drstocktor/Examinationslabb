@@ -1,4 +1,4 @@
-package com.example.examinationslabb.entities;
+package com.example.examinationslabb.model;
 
 import jakarta.persistence.*;
 

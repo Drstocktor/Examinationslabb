@@ -1,25 +1,32 @@
-package com.example.examinationslabb.entities;
+package com.example.examinationslabb.model;
 
 import jakarta.persistence.*;
 
 import java.util.List;
 
 @Entity
-@Table(name = "customers")
+@Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private UserType userType;
     private String username;
     private String password;
+    private UserType userType;
     @OneToMany
     private List<Order> orders;
 
 
-    public void setId(Long id) {
-        this.id = id;
+    public User() {
+
     }
+
+    public User(String username, String password, UserType userType) {
+        this.username = username;
+        this.password = password;
+        this.userType = userType;
+    }
+
 
     public Long getId() {
         return id;
@@ -49,11 +56,11 @@ public class User {
         this.password = password;
     }
 
-    public List<com.example.examinationslabb.entities.Order> getOrders() {
+    public List<com.example.examinationslabb.model.Order> getOrders() {
         return orders;
     }
 
-    public void setOrders(List<com.example.examinationslabb.entities.Order> orders) {
+    public void setOrders(List<com.example.examinationslabb.model.Order> orders) {
         this.orders = orders;
     }
 }

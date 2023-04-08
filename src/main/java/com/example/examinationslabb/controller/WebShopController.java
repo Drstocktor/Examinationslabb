@@ -11,13 +11,15 @@ public class WebShopController {
     private final UserService userService;
     private final WebShopService webShopService;
 
+
+    // @PreAuthorize("hasRole('ADMIN')")
     public WebShopController(UserService userService, WebShopService webShopService) {
         this.userService = userService;
         this.webShopService = webShopService;
     }
 
-    @GetMapping("/login")
-    public String login(Model model) {
-        return "login";
+    @GetMapping("/home")
+    public String home() {
+        return "home";
     }
 }

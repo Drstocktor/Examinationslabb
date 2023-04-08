@@ -1,6 +1,6 @@
 package com.example.examinationslabb.repository;
 
-import com.example.examinationslabb.entities.Book;
+import com.example.examinationslabb.model.Book;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
