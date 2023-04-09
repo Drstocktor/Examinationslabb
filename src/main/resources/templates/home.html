@@ -4,17 +4,59 @@
 <head>
     <meta charset="UTF-8">
     <title>Home</title>
+    <style>
+        /* Style the header */
+        header {
+            background-color: #333;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 36px;
+        }
+
+        /* Style the logout button */
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+
+        /* Style the "Add new products" link */
+        .admin-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
 
-<h1>Hello <span sec:authentication="name">Username</span></h1>
+<header>Hello <span sec:authentication="name">Username</span></header>
 
 <form th:action="@{/logout}" method="post">
     <input type="submit" value="Logout">
 </form>
 
-<div sec:authorize="hasAuthority('ADMIN')">
+<div sec:authorize="hasAuthority('ADMIN')" class="admin-link">
     <a th:href="@{/add_product}">Add new products</a>
 </div>
+
+<script>
+    // Add an event listener to the logout button to confirm the user's action
+    const logoutBtn = document.querySelector('input[type="submit"]');
+    logoutBtn.addEventListener('click', () => {
+        const confirmLogout = confirm('Are you sure you want to logout?');
+        if (!confirmLogout) {
+            event.preventDefault();
+        }
+    });
+</script>
 </body>
 </html>
