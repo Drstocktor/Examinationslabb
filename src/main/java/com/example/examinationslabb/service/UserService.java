@@ -22,7 +22,7 @@ public class UserService implements UserDetailsService {
         return userRepository
                 .findByUsername(username)
                 .map(UserSecurity::new)
-                .orElseThrow(() ->new UsernameNotFoundException("Username not found: " + username));
+                .orElseThrow(() -> new UsernameNotFoundException("Username not found: " + username));
 
     }
 }

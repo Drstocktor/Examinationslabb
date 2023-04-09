@@ -19,7 +19,7 @@ public class ExaminationslabbApplication {
     @Bean
     CommandLineRunner commandLineRunner(UserRepository users, PasswordEncoder passwordEncoder) {
         return args -> {
-            users.save(new User("Victor", passwordEncoder.encode("victor"), UserType.CUSTOMER));
+            users.save(new User("Victor", passwordEncoder.encode("victor"), UserType.USER));
             users.save(new User("Admin", passwordEncoder.encode("admin"), UserType.ADMIN));
         };
     }

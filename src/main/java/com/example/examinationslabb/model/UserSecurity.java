@@ -4,17 +4,17 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
 public class UserSecurity implements UserDetails {
 
-    private User user;
+    private final User user;
 
     public UserSecurity(User user) {
         this.user = user;
+        System.out.println(this.user.getUserType().toString());
     }
 
     @Override
@@ -29,8 +29,11 @@ public class UserSecurity implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(user.getUserType().toString());
-        return List.of(simpleGrantedAuthority);
+        return Arrays.stream(
+                user.getUserType().toString()
+                .split(","))
+                .map(SimpleGrantedAuthority::new)
+                .toList();
     }
 
     @Override

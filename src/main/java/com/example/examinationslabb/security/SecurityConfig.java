@@ -3,11 +3,10 @@ package com.example.examinationslabb.security;
 import com.example.examinationslabb.service.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -24,24 +23,28 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
-                .authorizeHttpRequests()
-                .requestMatchers("/login").permitAll()
-                .anyRequest().authenticated()
-                .and().userDetailsService(userService)
-                .formLogin().loginPage("/login")
-                .defaultSuccessUrl("/home").permitAll()
-                .and()
-                .logout()
-                .permitAll().and().build();
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/add").hasRole("ADMIN")
+                        .requestMatchers("/login").permitAll()
+                        .anyRequest().authenticated())
+                .userDetailsService(userService)
+                .formLogin(form -> form
+                        .loginPage("/login")
+                        .successForwardUrl("/home"))
+                .build();
 
-//       return http
-//               .authorizeHttpRequests(auth -> auth
-//                       .anyRequest().authenticated())
-//               .userDetailsService(userService)
-//               .httpBasic(Customizer.withDefaults())
-//               .build();
+
+//                .authorizeHttpRequests()
+//                .requestMatchers("/login").permitAll()
+//                .anyRequest().authenticated()
+//                .and().userDetailsService(userService)
+//                .formLogin().loginPage("/login")
+//                .defaultSuccessUrl("/home")
+//                .and()
+//                .logout()
+//                .permitAll().and().build();
     }
-//
+
     @Bean
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
