@@ -28,9 +28,9 @@ public class WebShopController {
         return "add_product";
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/add")
-    public String add(Model m) {
+    public String add() {
         return "add_product";
     }
 }

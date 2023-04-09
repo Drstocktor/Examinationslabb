@@ -3,8 +3,6 @@ package com.example.examinationslabb.model;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -14,7 +12,6 @@ public class UserSecurity implements UserDetails {
 
     public UserSecurity(User user) {
         this.user = user;
-        System.out.println(this.user.getUserType().toString());
     }
 
     @Override
@@ -29,11 +26,9 @@ public class UserSecurity implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Arrays.stream(
-                user.getUserType().toString()
-                .split(","))
-                .map(SimpleGrantedAuthority::new)
-                .toList();
+        SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(user.getUserType().toString());
+        System.out.println(user.getUserType().toString());
+        return List.of(simpleGrantedAuthority);
     }
 
     @Override

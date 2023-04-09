@@ -3,9 +3,11 @@ package com.example.examinationslabb.security;
 import com.example.examinationslabb.service.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -19,30 +21,23 @@ public class SecurityConfig {
         this.userService = userService;
     }
 
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
+                .csrf().disable()
+                .userDetailsService(userService)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/add").hasRole("ADMIN")
+                        .requestMatchers("/add").hasAuthority("ADMIN")
+                        .requestMatchers("/add_product").hasAuthority("ADMIN")
                         .requestMatchers("/login").permitAll()
                         .anyRequest().authenticated())
-                .userDetailsService(userService)
                 .formLogin(form -> form
                         .loginPage("/login")
-                        .successForwardUrl("/home"))
+                        .defaultSuccessUrl("/home"))
+                .logout(out -> out
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/login?logout"))
                 .build();
-
-
-//                .authorizeHttpRequests()
-//                .requestMatchers("/login").permitAll()
-//                .anyRequest().authenticated()
-//                .and().userDetailsService(userService)
-//                .formLogin().loginPage("/login")
-//                .defaultSuccessUrl("/home")
-//                .and()
-//                .logout()
-//                .permitAll().and().build();
     }
 
     @Bean
