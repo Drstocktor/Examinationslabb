@@ -13,6 +13,15 @@ public class Game {
     private int releaseYear;
     private int price;
 
+    public Game() {
+    }
+
+    public Game(String title, String developer, int price) {
+        this.title = title;
+        this.developer = developer;
+        this.price = price;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }

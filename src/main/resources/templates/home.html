@@ -44,12 +44,13 @@
     <input type="submit" value="Logout">
 </form>
 
+<a th:href="@{/products}">View products</a>
+
 <div sec:authorize="hasAuthority('ADMIN')" class="admin-link">
     <a th:href="@{/add_product}">Add new products</a>
 </div>
 
 <script>
-    // Add an event listener to the logout button to confirm the user's action
     const logoutBtn = document.querySelector('input[type="submit"]');
     logoutBtn.addEventListener('click', () => {
         const confirmLogout = confirm('Are you sure you want to logout?');

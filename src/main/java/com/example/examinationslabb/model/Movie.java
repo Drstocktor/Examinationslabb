@@ -9,8 +9,16 @@ public class Movie {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
+    private String director;
     private int releaseYear;
     private int price;
+
+    public Movie(String title, String director, int releaseYear, int price) {
+        this.title = title;
+        this.director = director;
+        this.releaseYear = releaseYear;
+        this.price = price;
+    }
 
     public void setId(Long id) {
         this.id = id;

@@ -22,15 +22,19 @@ public class WebShopController {
         return "home";
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/products")
+    public String products() {
+        return "products";
+    }
     @GetMapping("/add_product")
     public String addProduct(Model m) {
         return "add_product";
     }
 
-//    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/add")
     public String add() {
         return "add_product";
     }
+
+//    @PreAuthorize("hasRole('ADMIN')")
 }

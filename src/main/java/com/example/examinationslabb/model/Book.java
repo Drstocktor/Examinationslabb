@@ -13,6 +13,15 @@ public class Book {
     private String author;
     private int price;
 
+    public Book() {
+    }
+
+    public Book(String title, String author, int price) {
+        this.title = title;
+        this.author = author;
+        this.price = price;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
