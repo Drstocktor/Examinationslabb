@@ -6,7 +6,21 @@
 </head>
 <body>
 
+<h1>Products</h1>
+<form th:action="@{/products}" method="get">
+    <label for="product-select">Select a product</label>
+    <select name="product" id="product-select">
+        <option value="books">Books</option>
+        <option value="movies">Movies</option>
+        <option value="games">Games</option>
+    </select>
+    <input type="submit" value="View product">
+</form>
 
+<div th:if="${selectedProduct != null}">
+    <h2></h2>
+
+</div>
 
 </body>
 </html>
