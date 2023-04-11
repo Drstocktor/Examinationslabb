@@ -29,7 +29,7 @@ public class ExaminationslabbApplication {
             movies.save(new Movie("Gladiator", "Ridley Scott", 2000, 20));
             movies.save(new Movie("The Prestige", "Christopher Nolan", 2006, 30));
             movies.save(new Movie("John Wick", "Derek Kolstad", 2014, 50));
-            games.save(new Game("Cyperbunk 2077", "CD Project Red", 60));
+            games.save(new Game("Cyberpunk 2077", "CD Project Red", 60));
             games.save(new Game("Dwarf Fortress", "Bay 12 Games", 30));
             games.save(new Game("Crusader Kings III", "Paradox Development Studio", 50));
         };
