@@ -13,15 +13,15 @@ public class Movie {
     private int releaseYear;
     private int price;
 
+    public Movie() {
+
+    }
+
     public Movie(String title, String director, int releaseYear, int price) {
         this.title = title;
         this.director = director;
         this.releaseYear = releaseYear;
         this.price = price;
-    }
-
-    public Movie() {
-
     }
 
     public void setId(Long id) {

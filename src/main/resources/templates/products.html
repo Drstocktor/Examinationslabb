@@ -10,16 +10,36 @@
 <form th:action="@{/products}" method="get">
     <label for="product-select">Select a product</label>
     <select name="product" id="product-select">
-        <option value="books">Books</option>
-        <option value="movies">Movies</option>
-        <option value="games">Games</option>
+        <option value="books" th:selected="${param.product} == 'books'">Books</option>
+        <option value="movies" th:selected="${param.product} == 'movies'">Movies</option>
+        <option value="games" th:selected="${param.product} == 'games'">Games</option>
     </select>
-    <input type="submit" value="View product">
+    <input type="submit" value="View products">
 </form>
 
-<div th:if="${selectedProduct != null}">
-    <h2></h2>
-
+<div th:if="${param.product != null}">
+    <h2>Products</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Price</th>
+            <th>View</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="product : ${productChoice}">
+            <td th:text="${product.title}"></td>
+            <td th:text="'$' + ${product.price}"></td>
+            <td>
+                <form th:action="@{product-details}" method="get">
+                    <input type="hidden" name="productId" th:value="${product.id}">
+                    <button type="submit">View Product</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 </div>
 
 </body>

@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.SessionScope;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -53,5 +55,22 @@ public class WebShopService {
 
     public List<Movie> getAllMovies() {
         return movieRepository.findAll();
+    }
+
+    public List<Object> getProductByType(String type) {
+        List<Object> products = new ArrayList<>();
+        if (type != null) {
+            switch (type) {
+                case "books" -> products.addAll(getAllBooks());
+                case "movies" -> products.addAll(getAllMovies());
+                case "games" -> products.addAll(getAllGames());
+                default -> {
+                    products.addAll(getAllGames());
+                    products.addAll(getAllMovies());
+                    products.addAll(getAllBooks());
+                }
+            }
+        }
+        return products;
     }
 }

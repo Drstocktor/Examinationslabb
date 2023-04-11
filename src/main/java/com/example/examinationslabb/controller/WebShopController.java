@@ -26,19 +26,10 @@ public class WebShopController {
 
     @GetMapping("/products")
     public String products(@RequestParam(name = "product", required = false) String product, Model model) {
-        String choice = "productChoice";
-        if (product != null) {
-            switch (product) {
-                case "books" -> model.addAttribute(choice, webShopService.getAllBooks());
-                case "movies" -> model.addAttribute(choice, webShopService.getAllMovies());
-                case "games" -> model.addAttribute(choice, webShopService.getAllGames());
-                default -> {
-                    break;
-                }
-            }
-        }
+        model.addAttribute("productChoice" , webShopService.getProductByType(product));
         return "products";
     }
+
 
     @GetMapping("/add_product")
     public String addProduct(Model m) {
