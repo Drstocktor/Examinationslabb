@@ -20,6 +20,10 @@ public class Movie {
         this.price = price;
     }
 
+    public Movie() {
+
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -50,5 +54,13 @@ public class Movie {
 
     public void setPrice(int price) {
         this.price = price;
+    }
+
+    public String getDirector() {
+        return director;
+    }
+
+    public void setDirector(String director) {
+        this.director = director;
     }
 }

@@ -19,7 +19,7 @@ public class WebShopService {
     private final UserService userService;
 
     @Autowired
-    public WebShopService(BookRepository bookRepository, GameRepository gameRepository, MovieRepository movieRepository, UserSecurity userSecurity, UserService userService) {
+    public WebShopService(BookRepository bookRepository, GameRepository gameRepository, MovieRepository movieRepository, UserService userService) {
         this.bookRepository = bookRepository;
         this.gameRepository = gameRepository;
         this.movieRepository = movieRepository;

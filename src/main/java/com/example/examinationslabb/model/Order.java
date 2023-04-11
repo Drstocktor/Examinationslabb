@@ -72,4 +72,11 @@ public class Order {
         this.placedOn = placedOn;
     }
 
+    public boolean isPaid() {
+        return isPaid;
+    }
+
+    public void setPaid(boolean paid) {
+        isPaid = paid;
+    }
 }
