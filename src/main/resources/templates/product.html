@@ -1,10 +1,33 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Product</title>
 </head>
 <body>
+<h1 th:text="${product.title}"></h1>
+<p th:text="'$' + ${product.price}"></p>
+
+<div th:if="${product.getCategory() == 'Book'}">
+    <p th:text="${product.getAuthor()}"></p>
+</div>
+
+<div th:if="${product.getCategory() == 'Movie'}">
+    <p th:text="${product.getDirector()}"></p>
+    <p th:text="${product.getReleaseYear()}"></p>
+</div>
+
+<div th:if="${product.getCategory() == 'Game'}">
+    <p th:if="${product.getDeveloper()}"></p>
+</div>
+
+<form th:action="@{products}" method="get">
+    <button type="submit">Back</button>
+</form>
+
+<!--<form th:action="@{products-details}" method="get">-->
+<!--    <button type="submit" name="addToCart">Add to cart</button>-->
+<!--</form>-->
 
 </body>
 </html>

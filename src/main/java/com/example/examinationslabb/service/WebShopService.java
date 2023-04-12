@@ -58,16 +58,16 @@ public class WebShopService {
         return products;
     }
 
-    public Optional<Book> findBookById(Long id) {
-        return bookRepository.findById(id);
+    public Book findBookById(Long id) {
+        return bookRepository.findById(id).orElseThrow();
     }
 
-    public Optional<Movie> findMovieById(Long id) {
-        return movieRepository.findById(id);
+    public Movie findMovieById(Long id) {
+        return movieRepository.findById(id).orElseThrow();
     }
 
-    public Optional<Game> findGameById(Long id) {
-        return gameRepository.findById(id);
+    public Game findGameById(Long id) {
+        return gameRepository.findById(id).orElseThrow();
     }
 
     public List<Product> searchProducts(String search) {
