@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "games")
-public class Game {
+public class Game implements Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -60,5 +60,10 @@ public class Game {
 
     public void setPrice(int price) {
         this.price = price;
+    }
+
+    @Override
+    public String getCategory() {
+        return "Game";
     }
 }

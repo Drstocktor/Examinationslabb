@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "movies")
-public class Movie {
+public class Movie implements Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -62,5 +62,10 @@ public class Movie {
 
     public void setDirector(String director) {
         this.director = director;
+    }
+
+    @Override
+    public String getCategory() {
+        return "Movie";
     }
 }

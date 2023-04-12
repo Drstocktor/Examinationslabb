@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.SessionScope;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @SessionScope
@@ -19,6 +19,7 @@ public class WebShopService {
     private final GameRepository gameRepository;
     private final MovieRepository movieRepository;
     private final UserService userService;
+    private List<Product> shoppingCart;
 
     @Autowired
     public WebShopService(BookRepository bookRepository, GameRepository gameRepository, MovieRepository movieRepository, UserService userService) {
@@ -26,23 +27,6 @@ public class WebShopService {
         this.gameRepository = gameRepository;
         this.movieRepository = movieRepository;
         this.userService = userService;
-    }
-
-
-    public BookRepository getBookRepository() {
-        return bookRepository;
-    }
-
-    public GameRepository getGameRepository() {
-        return gameRepository;
-    }
-
-    public MovieRepository getMovieRepository() {
-        return movieRepository;
-    }
-
-    public UserService getUserService() {
-        return userService;
     }
 
     public List<Book> getAllBooks() {
@@ -57,10 +41,10 @@ public class WebShopService {
         return movieRepository.findAll();
     }
 
-    public List<Object> getProductByType(String type) {
-        List<Object> products = new ArrayList<>();
-        if (type != null) {
-            switch (type) {
+    public List<Product> getProductByType(String category) {
+        List<Product> products = new ArrayList<>();
+        if (category != null) {
+            switch (category) {
                 case "books" -> products.addAll(getAllBooks());
                 case "movies" -> products.addAll(getAllMovies());
                 case "games" -> products.addAll(getAllGames());
@@ -72,5 +56,60 @@ public class WebShopService {
             }
         }
         return products;
+    }
+
+    public Optional<Book> findBookById(Long id) {
+        return bookRepository.findById(id);
+    }
+
+    public Optional<Movie> findMovieById(Long id) {
+        return movieRepository.findById(id);
+    }
+
+    public Optional<Game> findGameById(Long id) {
+        return gameRepository.findById(id);
+    }
+
+    public List<Product> searchProducts(String search) {
+        List<Product> productsFound = new ArrayList<>();
+
+        List<Movie> movies = findMoviesBySearch(search);
+        List<Game> games = findGamesBySearch(search);
+        List<Book> books = findBooksBySearch(search);
+
+        productsFound.addAll(movies);
+        productsFound.addAll(games);
+        productsFound.addAll(books);
+
+        System.out.println(productsFound);
+
+        return productsFound;
+    }
+
+    private List<Book> findBooksBySearch(String search) {
+        return bookRepository.findAll().stream()
+                .filter(book -> book
+                        .getTitle()
+                        .contains(search))
+                .toList();
+
+        //todo get titles and more?
+        //todo make search in lowercase?
+    }
+
+    private List<Game> findGamesBySearch(String search) {
+        return gameRepository.findAll().stream()
+                .filter(game -> game
+                        .getTitle()
+                        .contains(search))
+                .toList();
+    }
+
+    private List<Movie> findMoviesBySearch(String search) {
+        return movieRepository.findAll().stream()
+                .filter(movie -> movie
+                        .getTitle()
+                        .contains(search))
+                .toList();
     }
 }
