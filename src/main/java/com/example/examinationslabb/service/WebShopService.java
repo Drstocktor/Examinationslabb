@@ -4,28 +4,36 @@ import com.example.examinationslabb.model.*;
 import com.example.examinationslabb.repository.BookRepository;
 import com.example.examinationslabb.repository.GameRepository;
 import com.example.examinationslabb.repository.MovieRepository;
+import com.example.examinationslabb.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.SessionScope;
 
 import java.util.ArrayList;
 import java.util.List;
+
 @Service
 @SessionScope
 public class WebShopService {
     private final BookRepository bookRepository;
     private final GameRepository gameRepository;
     private final MovieRepository movieRepository;
+    private final UserRepository userRepository;
     private final UserService userService;
-    private List<Product> shoppingCart;
+    private List<Product> shoppingCart = new ArrayList<>();
+
     private Product currentProduct;
     private User user;
 
     @Autowired
-    public WebShopService(BookRepository bookRepository, GameRepository gameRepository, MovieRepository movieRepository, UserService userService) {
+    public WebShopService(BookRepository bookRepository,
+                          GameRepository gameRepository,
+                          MovieRepository movieRepository,
+                          UserRepository userRepository, UserService userService) {
         this.bookRepository = bookRepository;
         this.gameRepository = gameRepository;
         this.movieRepository = movieRepository;
+        this.userRepository = userRepository;
         this.userService = userService;
     }
 
@@ -118,7 +126,39 @@ public class WebShopService {
     }
 
     public void addProductToCart(Long id, String productCategory, String name) {
-        System.out.println(name);
-        // TODO: 2023-04-12 add products 
+        getUserFromDatabase(name);
+        Product product = findProduct(id, productCategory);
+        shoppingCart.add(product);
+    }
+
+    private Product findProduct(Long id, String productCategory) {
+        switch (productCategory) {
+            case "Book" -> {
+                Book book = bookRepository.findById(id).get();
+                return book;
+            }
+            case "Movie" -> {
+                Movie movie = movieRepository.findById(id).get();
+                return movie;
+            }
+            case "Game" -> {
+                return gameRepository.findById(id).get();
+            }
+        }
+        return null;
+    }
+
+    public void getUserFromDatabase(String name) {
+        if (user == null) {
+            if (userRepository.findByUsername(name).isPresent()) {
+                user = userRepository.findByUsername(name).orElse(null);
+            }
+        }
+    }
+
+    public int getTotalPrice() {
+        return shoppingCart.stream()
+                .mapToInt(Product::getPrice)
+                .sum();
     }
 }

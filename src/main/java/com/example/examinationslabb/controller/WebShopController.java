@@ -1,5 +1,6 @@
 package com.example.examinationslabb.controller;
 
+import com.example.examinationslabb.model.Product;
 import com.example.examinationslabb.service.UserService;
 import com.example.examinationslabb.service.WebShopService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
 
 @Controller
 public class WebShopController {
@@ -23,8 +26,6 @@ public class WebShopController {
 
     @GetMapping("/home")
     public String home() {
-
-        // TODO: 2023-04-12 add user here already in webservice?
         return "home";
     }
 
@@ -64,9 +65,15 @@ public class WebShopController {
                             Model model,
                             Authentication authentication) {
         webShopService.addProductToCart(productId, productCategory, authentication.getName());
+        model.addAttribute("totalPrice", webShopService.getTotalPrice());
         model.addAttribute("shoppingCart", webShopService.getShoppingCart());
         return "cart";
 
+    }
+
+    @PostMapping("/orders")
+    public String orders(@RequestParam List<Product> shoppingCart) {
+        return "orders";
     }
     @GetMapping("/add_product")
     public String addProduct(Model m) {
