@@ -3,9 +3,11 @@ package com.example.examinationslabb.controller;
 import com.example.examinationslabb.service.UserService;
 import com.example.examinationslabb.service.WebShopService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
@@ -21,6 +23,8 @@ public class WebShopController {
 
     @GetMapping("/home")
     public String home() {
+
+        // TODO: 2023-04-12 add user here already in webservice?
         return "home";
     }
 
@@ -49,6 +53,21 @@ public class WebShopController {
         return "product";
     }
 
+    @GetMapping("/cart")
+    public String getCart(Model model) {
+        model.addAttribute("shoppingCart", webShopService.getShoppingCart());
+        return "cart";
+    }
+    @PostMapping("/cart")
+    public String addToCart(@RequestParam Long productId,
+                            @RequestParam String productCategory,
+                            Model model,
+                            Authentication authentication) {
+        webShopService.addProductToCart(productId, productCategory, authentication.getName());
+        model.addAttribute("shoppingCart", webShopService.getShoppingCart());
+        return "cart";
+
+    }
     @GetMapping("/add_product")
     public String addProduct(Model m) {
         return "add_product";

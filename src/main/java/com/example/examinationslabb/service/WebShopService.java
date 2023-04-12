@@ -10,8 +10,6 @@ import org.springframework.web.context.annotation.SessionScope;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
 @Service
 @SessionScope
 public class WebShopService {
@@ -20,6 +18,8 @@ public class WebShopService {
     private final MovieRepository movieRepository;
     private final UserService userService;
     private List<Product> shoppingCart;
+    private Product currentProduct;
+    private User user;
 
     @Autowired
     public WebShopService(BookRepository bookRepository, GameRepository gameRepository, MovieRepository movieRepository, UserService userService) {
@@ -111,5 +111,14 @@ public class WebShopService {
                         .getTitle()
                         .contains(search))
                 .toList();
+    }
+
+    public List<Product> getShoppingCart() {
+        return shoppingCart;
+    }
+
+    public void addProductToCart(Long id, String productCategory, String name) {
+        System.out.println(name);
+        // TODO: 2023-04-12 add products 
     }
 }

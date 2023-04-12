@@ -25,9 +25,11 @@
     <button type="submit">Back</button>
 </form>
 
-<!--<form th:action="@{products-details}" method="get">-->
-<!--    <button type="submit" name="addToCart">Add to cart</button>-->
-<!--</form>-->
+<form th:action="@{/cart}" method="post">
+    <input type="hidden" name="productId" th:value="${product.id}">
+    <input type="hidden" name="productCategory" th:value="${product.getCategory()}">
+    <button type="submit">Add to Cart</button>
+</form>
 
 </body>
 </html>
