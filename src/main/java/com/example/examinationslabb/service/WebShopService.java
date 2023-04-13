@@ -126,9 +126,11 @@ public class WebShopService {
         return shoppingCart;
     }
 
-    public void addProductToCart(Long id, String productCategory) {
+    public void addProductToCart(Long id, String productCategory, int quantity) {
         Product product = findProduct(id, productCategory);
-        shoppingCart.add(product);
+        for (int i = 0; i < quantity; i++) {
+            shoppingCart.add(product);
+        }
     }
 
     private Product findProduct(Long id, String productCategory) {

@@ -4,6 +4,7 @@ import com.example.examinationslabb.model.Product;
 import com.example.examinationslabb.service.UserService;
 import com.example.examinationslabb.service.WebShopService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -41,19 +42,6 @@ public class WebShopController {
         return "view-products";
     }
 
-    @GetMapping("/product-details")
-    public String productDetails(@RequestParam(name = "productId") Long id,
-                                 @RequestParam(name = "productCategory") String category, Model model) {
-        switch (category) {
-            case "Book" -> model.addAttribute("product", webShopService.findBookById(id));
-            case "Movie" -> model.addAttribute("product", webShopService.findMovieById(id));
-            case "Game" -> model.addAttribute("product", webShopService.findGameById(id));
-            default -> {
-            }
-        }
-        return "product";
-    }
-
     @GetMapping("/cart")
     public String getCart(Model model) {
         model.addAttribute("totalPrice", webShopService.getTotalPrice());
@@ -64,8 +52,9 @@ public class WebShopController {
     @PostMapping("/cart")
     public String addToCart(@RequestParam Long productId,
                             @RequestParam String productCategory,
+                            @RequestParam int quantity,
                             Model model) {
-        webShopService.addProductToCart(productId, productCategory);
+        webShopService.addProductToCart(productId, productCategory, quantity);
         model.addAttribute("totalPrice", webShopService.getTotalPrice());
         model.addAttribute("shoppingCart", webShopService.getShoppingCart());
         return "cart";
@@ -95,5 +84,9 @@ public class WebShopController {
         return "add-product";
     }
 
-//    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('Admin')")
+    @GetMapping("/test")
+    public String test() {
+        return "test";
+    }
 }
