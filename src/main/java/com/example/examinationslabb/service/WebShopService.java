@@ -158,7 +158,8 @@ public class WebShopService {
                 .sum();
     }
 
-    public void placeOrder(String name) {
+    public List<Product> placeOrder(String name) {
+        List<Product> products = new ArrayList<>(shoppingCart);
         user = getUserFromDatabase(name);
         Order order = new Order();
         order.setBooksOrdered(getBooksFromCart(getShoppingCart()));
@@ -171,6 +172,7 @@ public class WebShopService {
         user.addOrder(order);
         user = userRepository.save(user);
         shoppingCart.clear();
+        return products;
     }
 
     private List<Book> getBooksFromCart(List<Product> shoppingCart) {

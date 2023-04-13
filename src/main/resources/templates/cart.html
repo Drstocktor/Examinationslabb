@@ -19,6 +19,9 @@
             <td th:text="${product.title}"></td>
             <td th:text="'$' + ${product.price}"></td>
         </tr>
+        <tr th:if="${#lists.isEmpty(shoppingCart)}">
+            <td colspan="2">Your cart is empty.</td>
+        </tr>
         </tbody>
     </table>
     <p th:text="'Total price: $' + ${totalPrice}"></p>

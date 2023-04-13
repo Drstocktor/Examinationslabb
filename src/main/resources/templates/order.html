@@ -1,11 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Your Order</title>
 </head>
 <body>
-
 <div>
     <h2>Your order was successfully placed</h2>
     <table>
@@ -16,9 +15,9 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="product : ${shoppingCart}">
+        <tr th:each="product : ${productsOrdered}">
             <td th:text="${product.title}"></td>
-            <td th:text="${product.price}"></td>
+            <td th:text="'$' + ${product.price}"></td>
         </tr>
         </tbody>
     </table>

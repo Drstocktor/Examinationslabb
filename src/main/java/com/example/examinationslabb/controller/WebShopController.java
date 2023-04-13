@@ -75,10 +75,8 @@ public class WebShopController {
     @PostMapping("/orders")
     public String orders(Model model,
                          Authentication authentication) {
-        // TODO: 2023-04-13 order should show products bought 
-        model.addAttribute("shoppingCart", webShopService.getShoppingCart());
         model.addAttribute("totalPrice", webShopService.getTotalPrice());
-        webShopService.placeOrder(authentication.getName());
+        model.addAttribute("productsOrdered", webShopService.placeOrder(authentication.getName()));
         return "order";
     }
 
