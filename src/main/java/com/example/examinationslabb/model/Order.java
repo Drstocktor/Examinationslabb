@@ -13,20 +13,15 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany
+    @ManyToMany
     List<Book> booksOrdered;
-    @OneToMany
+    @ManyToMany
     List<Movie> moviesOrdered;
-    @OneToMany
+    @ManyToMany
     List<Game> gamesOrdered;
     private int totalPrice;
     private LocalDateTime placedOn;
     private boolean isPaid;
-
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public Long getId() {
         return id;

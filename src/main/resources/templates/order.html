@@ -2,11 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Shopping Cart</title>
+    <title>Your Order</title>
 </head>
 <body>
+
 <div>
-    <h2>Shopping Cart</h2>
+    <h2>Your order was successfully placed</h2>
     <table>
         <thead>
         <tr>
@@ -17,18 +18,14 @@
         <tbody>
         <tr th:each="product : ${shoppingCart}">
             <td th:text="${product.title}"></td>
-            <td th:text="'$' + ${product.price}"></td>
+            <td th:text="${product.price}"></td>
         </tr>
         </tbody>
     </table>
-    <p th:text="'Total price: $' + ${totalPrice}"></p>
+    <p th:text ="'Total price: $' + ${totalPrice}"></p>
 </div>
 <form th:action="@{/products}" method="get">
     <button type="submit">Back to shopping</button>
 </form>
-<form th:action="@{/orders}" method="post" th:if="${not #lists.isEmpty(shoppingCart)}">
-    <button type="submit">Place Order</button>
-</form>
-
 </body>
 </html>

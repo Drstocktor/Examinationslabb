@@ -1,14 +1,12 @@
 package com.example.examinationslabb.service;
 
 import com.example.examinationslabb.model.*;
-import com.example.examinationslabb.repository.BookRepository;
-import com.example.examinationslabb.repository.GameRepository;
-import com.example.examinationslabb.repository.MovieRepository;
-import com.example.examinationslabb.repository.UserRepository;
+import com.example.examinationslabb.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.SessionScope;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,21 +17,24 @@ public class WebShopService {
     private final GameRepository gameRepository;
     private final MovieRepository movieRepository;
     private final UserRepository userRepository;
+    private final OrderRepository orderRepository;
     private final UserService userService;
     private List<Product> shoppingCart = new ArrayList<>();
 
     private Product currentProduct;
-    private User user;
+    private User user = new User();
 
     @Autowired
     public WebShopService(BookRepository bookRepository,
                           GameRepository gameRepository,
                           MovieRepository movieRepository,
-                          UserRepository userRepository, UserService userService) {
+                          UserRepository userRepository,
+                          OrderRepository orderRepository, UserService userService) {
         this.bookRepository = bookRepository;
         this.gameRepository = gameRepository;
         this.movieRepository = movieRepository;
         this.userRepository = userRepository;
+        this.orderRepository = orderRepository;
         this.userService = userService;
     }
 
@@ -125,8 +126,7 @@ public class WebShopService {
         return shoppingCart;
     }
 
-    public void addProductToCart(Long id, String productCategory, String name) {
-        getUserFromDatabase(name);
+    public void addProductToCart(Long id, String productCategory) {
         Product product = findProduct(id, productCategory);
         shoppingCart.add(product);
     }
@@ -148,12 +148,8 @@ public class WebShopService {
         return null;
     }
 
-    public void getUserFromDatabase(String name) {
-        if (user == null) {
-            if (userRepository.findByUsername(name).isPresent()) {
-                user = userRepository.findByUsername(name).orElse(null);
-            }
-        }
+    public User getUserFromDatabase(String name) {
+        return userRepository.findByUsername(name).get();
     }
 
     public int getTotalPrice() {
@@ -161,4 +157,41 @@ public class WebShopService {
                 .mapToInt(Product::getPrice)
                 .sum();
     }
+
+    public void placeOrder(String name) {
+        user = getUserFromDatabase(name);
+        Order order = new Order();
+        order.setBooksOrdered(getBooksFromCart(getShoppingCart()));
+        order.setGamesOrdered(getGamesFromCart(getShoppingCart()));
+        order.setMoviesOrdered(getMoviesFromCart(getShoppingCart()));
+        order.setPlacedOn(LocalDateTime.now());
+        order.setPaid(false);
+        order.setTotalPrice(getTotalPrice());
+        order = orderRepository.save(order);
+        user.addOrder(order);
+        user = userRepository.save(user);
+        shoppingCart.clear();
+    }
+
+    private List<Book> getBooksFromCart(List<Product> shoppingCart) {
+        return shoppingCart.stream()
+                .filter(product -> product instanceof Book)
+                .map(product -> (Book) product)
+                .toList();
+    }
+
+    private List<Movie> getMoviesFromCart(List<Product> shoppingCart) {
+        return shoppingCart.stream()
+                .filter(product -> product instanceof Movie)
+                .map(product -> (Movie) product)
+                .toList();
+    }
+
+    private List<Game> getGamesFromCart(List<Product> shoppingCart) {
+        return shoppingCart.stream()
+                .filter(product -> product instanceof Game)
+                .map(product -> (Game) product)
+                .toList();
+    }
+
 }

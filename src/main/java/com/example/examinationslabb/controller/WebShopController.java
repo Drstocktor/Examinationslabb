@@ -56,15 +56,16 @@ public class WebShopController {
 
     @GetMapping("/cart")
     public String getCart(Model model) {
+        model.addAttribute("totalPrice", webShopService.getTotalPrice());
         model.addAttribute("shoppingCart", webShopService.getShoppingCart());
         return "cart";
     }
+
     @PostMapping("/cart")
     public String addToCart(@RequestParam Long productId,
                             @RequestParam String productCategory,
-                            Model model,
-                            Authentication authentication) {
-        webShopService.addProductToCart(productId, productCategory, authentication.getName());
+                            Model model) {
+        webShopService.addProductToCart(productId, productCategory);
         model.addAttribute("totalPrice", webShopService.getTotalPrice());
         model.addAttribute("shoppingCart", webShopService.getShoppingCart());
         return "cart";
@@ -72,18 +73,29 @@ public class WebShopController {
     }
 
     @PostMapping("/orders")
-    public String orders(@RequestParam List<Product> shoppingCart) {
-        return "orders";
+    public String orders(Model model,
+                         Authentication authentication) {
+        // TODO: 2023-04-13 order should show products bought 
+        model.addAttribute("shoppingCart", webShopService.getShoppingCart());
+        model.addAttribute("totalPrice", webShopService.getTotalPrice());
+        webShopService.placeOrder(authentication.getName());
+        return "order";
     }
+
+    @GetMapping("/orders")
+    public String getOrders() {
+        return "redirect:/products";
+    }
+
     @GetMapping("/add_product")
     public String addProduct(Model m) {
-        return "add_product";
+        return "add-product";
     }
 
     @GetMapping("/add")
     public String add() {
-        return "add_product";
+        return "add-product";
     }
 
-//    @PreAuthorize("hasRole('ADMIN')")
+//    @PreAuthorize("hasAuthority('ADMIN')")
 }
