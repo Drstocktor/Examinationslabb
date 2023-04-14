@@ -46,6 +46,15 @@ public class WebShopController {
         return "cart";
     }
 
+    @GetMapping("/remove-product")
+    public String removeFromCart(@RequestParam Long productId,
+                                 @RequestParam String productCategory) {
+
+        // TODO: 2023-04-14 finish implementation of remove from cart
+        webShopService.removeProductFromCart(productId);
+        return "cart";
+    }
+
     @PostMapping("/cart")
     public String addToCart(@RequestParam Long productId,
                             @RequestParam String productCategory,
@@ -75,6 +84,7 @@ public class WebShopController {
 
     @GetMapping("/admin")
     public String admin(Model model) {
+        // TODO: 2023-04-14 finish admin page with form to add new products
         model.addAttribute("unpaidOrders", webShopService.getUnpaidOrders());
         model.addAttribute("paidOrders", webShopService.getPaidOrders());
         return "admin-page";

@@ -18,6 +18,13 @@
         <tr th:each="product : ${shoppingCart}">
             <td th:text="${product.title}"></td>
             <td th:text="'$' + ${product.price}"></td>
+            <td>
+                <form th:action="@{/post}" method="get">
+                    <input type="hidden" name="productId" th:value="${product.id}">
+                    <input type="hidden" name="productCategory" th:value="${product.getCategory()}">
+                    <button type="submit">Remove</button>
+                </form>
+            </td>
         </tr>
         <tr th:if="${#lists.isEmpty(shoppingCart)}">
             <td colspan="2">Your cart is empty.</td>

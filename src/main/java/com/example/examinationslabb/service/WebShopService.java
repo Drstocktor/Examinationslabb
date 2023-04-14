@@ -211,4 +211,7 @@ public class WebShopService {
         order.setPaid(true);
         orderRepository.save(order);
     }
+
+    public void removeProductFromCart(Long productId) {
+    }
 }
