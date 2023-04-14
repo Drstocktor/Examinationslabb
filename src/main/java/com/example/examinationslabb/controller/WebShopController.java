@@ -1,6 +1,5 @@
 package com.example.examinationslabb.controller;
 
-import com.example.examinationslabb.model.Product;
 import com.example.examinationslabb.service.UserService;
 import com.example.examinationslabb.service.WebShopService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +10,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import java.util.List;
 
 @Controller
 public class WebShopController {
@@ -64,6 +61,8 @@ public class WebShopController {
     @PostMapping("/orders")
     public String orders(Model model,
                          Authentication authentication) {
+
+        // TODO: 2023-04-14 SHOULD SHOW QUANTITY OF items instead of listing same item
         model.addAttribute("totalPrice", webShopService.getTotalPrice());
         model.addAttribute("productsOrdered", webShopService.placeOrder(authentication.getName()));
         return "order";
@@ -74,19 +73,24 @@ public class WebShopController {
         return "redirect:/products";
     }
 
-    @GetMapping("/add_product")
-    public String addProduct(Model m) {
-        return "add-product";
+    @GetMapping("/admin")
+    public String admin(Model model) {
+        model.addAttribute("unpaidOrders", webShopService.getUnpaidOrders());
+        model.addAttribute("paidOrders", webShopService.getPaidOrders());
+        return "admin-page";
     }
 
-    @GetMapping("/add")
-    public String add() {
-        return "add-product";
+    @PostMapping("/admin")
+    public String postAdmin(@RequestParam Long orderId, Model model) {
+        webShopService.chargeCustomer(orderId);
+        model.addAttribute("unpaidOrders", webShopService.getUnpaidOrders());
+        model.addAttribute("paidOrders", webShopService.getPaidOrders());
+        return "admin-page";
     }
 
-    @PreAuthorize("hasAuthority('Admin')")
-    @GetMapping("/test")
-    public String test() {
-        return "test";
-    }
+//    @PreAuthorize("hasAuthority('Admin')")
+//    @GetMapping("/test")
+//    public String test() {
+//        return "test";
+//    }
 }

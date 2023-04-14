@@ -24,8 +24,7 @@ public class SecurityConfig {
                 .csrf().disable()
                 .userDetailsService(userService)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/add").hasAuthority("ADMIN")
-                        .requestMatchers("/add_product").hasAuthority("ADMIN")
+                        .requestMatchers("/admin").hasAuthority("ADMIN")
                         .requestMatchers("/login").permitAll()
                         .anyRequest().authenticated())
                 .formLogin(form -> form

@@ -23,6 +23,14 @@ public class Order {
     private LocalDateTime placedOn;
     private boolean isPaid;
 
+    public Order() {
+    }
+
+    public Order(int totalPrice, boolean isPaid) {
+        this.totalPrice = totalPrice;
+        this.isPaid = isPaid;
+    }
+
     public Long getId() {
         return id;
     }

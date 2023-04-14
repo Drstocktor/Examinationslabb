@@ -1,10 +1,7 @@
 package com.example.examinationslabb;
 
 import com.example.examinationslabb.model.*;
-import com.example.examinationslabb.repository.BookRepository;
-import com.example.examinationslabb.repository.GameRepository;
-import com.example.examinationslabb.repository.MovieRepository;
-import com.example.examinationslabb.repository.UserRepository;
+import com.example.examinationslabb.repository.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -19,7 +16,7 @@ public class ExaminationslabbApplication {
     }
 
     @Bean
-    CommandLineRunner commandLineRunner(UserRepository users, PasswordEncoder passwordEncoder, BookRepository books, MovieRepository movies, GameRepository games) {
+    CommandLineRunner commandLineRunner(UserRepository users, PasswordEncoder passwordEncoder, BookRepository books, MovieRepository movies, GameRepository games, OrderRepository orders) {
         return args -> {
             users.save(new User("Victor", passwordEncoder.encode("victor"), UserType.USER));
             users.save(new User("Admin", passwordEncoder.encode("admin"), UserType.ADMIN));
@@ -32,6 +29,8 @@ public class ExaminationslabbApplication {
             games.save(new Game("Cyberpunk 2077", "CD Project Red", 60));
             games.save(new Game("Dwarf Fortress", "Bay 12 Games", 30));
             games.save(new Game("Crusader Kings III", "Paradox Development Studio", 50));
+            orders.save(new Order(60, true));
+            orders.save(new Order(120, false));
         };
     }
 }

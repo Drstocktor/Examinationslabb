@@ -18,10 +18,7 @@ public class WebShopService {
     private final MovieRepository movieRepository;
     private final UserRepository userRepository;
     private final OrderRepository orderRepository;
-    private final UserService userService;
     private List<Product> shoppingCart = new ArrayList<>();
-
-    private Product currentProduct;
     private User user = new User();
 
     @Autowired
@@ -29,13 +26,12 @@ public class WebShopService {
                           GameRepository gameRepository,
                           MovieRepository movieRepository,
                           UserRepository userRepository,
-                          OrderRepository orderRepository, UserService userService) {
+                          OrderRepository orderRepository) {
         this.bookRepository = bookRepository;
         this.gameRepository = gameRepository;
         this.movieRepository = movieRepository;
         this.userRepository = userRepository;
         this.orderRepository = orderRepository;
-        this.userService = userService;
     }
 
     public List<Book> getAllBooks() {
@@ -136,12 +132,10 @@ public class WebShopService {
     private Product findProduct(Long id, String productCategory) {
         switch (productCategory) {
             case "Book" -> {
-                Book book = bookRepository.findById(id).get();
-                return book;
+                return bookRepository.findById(id).get();
             }
             case "Movie" -> {
-                Movie movie = movieRepository.findById(id).get();
-                return movie;
+                return movieRepository.findById(id).get();
             }
             case "Game" -> {
                 return gameRepository.findById(id).get();
@@ -198,4 +192,23 @@ public class WebShopService {
                 .toList();
     }
 
+    public List<Order> getPaidOrders() {
+        return orderRepository.findAll()
+                .stream()
+                .filter(Order::isPaid)
+                .toList();
+    }
+
+    public List<Order> getUnpaidOrders() {
+        return orderRepository.findAll()
+                .stream()
+                .filter(order -> !order.isPaid())
+                .toList();
+    }
+
+    public void chargeCustomer(Long orderId) {
+        Order order = orderRepository.findById(orderId).get();
+        order.setPaid(true);
+        orderRepository.save(order);
+    }
 }

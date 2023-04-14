@@ -76,8 +76,8 @@
 </form>
 
 <div sec:authorize="hasAuthority('ADMIN')" class="admin-link">
-    <form th:action="@{/add-product}" method="get">
-        <button type="submit">Add Products</button>
+    <form th:action="@{/admin}" method="get">
+        <button type="submit">Admin Page</button>
     </form>
 </div>
 
