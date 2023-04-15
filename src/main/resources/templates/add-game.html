@@ -6,7 +6,7 @@
 </head>
 <body>
 <h1>Add Game</h1>
-<form th:object="${game}" th:action="@{/add-game}" method="post">
+<form th:object="${game}" th:action="@{/admin/add-game}" method="post">
     <label>Title:</label>
     <input type="text" th:field="*{title}"><br/>
     <label>Developer:</label>
@@ -21,10 +21,10 @@
 <form th:action="@{/home}" method="get">
     <button type="submit">Home</button>
 </form>
-<form th:action="@{/admin-page}" method="get">
+<form th:action="@{/admin}" method="get">
     <button type="submit">Admin Home</button>
 </form>
-<form th:action="@{/add-product}" method="get">
+<form th:action="@{/admin/add-products}" method="get">
     <button type="submit">Add a different product</button>
 </form>
 </body>

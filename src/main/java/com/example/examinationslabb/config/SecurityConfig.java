@@ -25,6 +25,7 @@ public class SecurityConfig {
                 .userDetailsService(userService)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/admin").hasAuthority("ADMIN")
+                        .requestMatchers("/admin/*").hasAuthority("ADMIN")
                         .requestMatchers("/login").permitAll()
                         .anyRequest().authenticated())
                 .formLogin(form -> form

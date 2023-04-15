@@ -8,15 +8,15 @@
 
 <h2>Add Products</h2>
 <ul>
-  <li><a th:href="@{/add-movie}">Add Movie</a></li>
-  <li><a th:href="@{/add-book}">Add Book</a></li>
-  <li><a th:href="@{/add-game}">Add Game</a></li>
+  <li><a th:href="@{/admin/add-movie}">Add Movie</a></li>
+  <li><a th:href="@{/admin/add-book}">Add Book</a></li>
+  <li><a th:href="@{/admin/add-game}">Add Game</a></li>
 </ul>
 
 <form th:action="@{/home}" method="get">
   <button type="submit">Home</button>
 </form>
-<form th:action="@{/admin-page}" method="get">
+<form th:action="@{/admin}" method="get">
     <button type="submit">Admin Home</button>
 </form>
 </body>
