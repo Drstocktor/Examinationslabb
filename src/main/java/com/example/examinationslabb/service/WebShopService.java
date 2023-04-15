@@ -3,12 +3,12 @@ package com.example.examinationslabb.service;
 import com.example.examinationslabb.model.*;
 import com.example.examinationslabb.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.SessionScope;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
 @SessionScope
@@ -86,8 +86,6 @@ public class WebShopService {
         productsFound.addAll(games);
         productsFound.addAll(books);
 
-        System.out.println(productsFound);
-
         return productsFound;
     }
 
@@ -118,10 +116,6 @@ public class WebShopService {
                 .toList();
     }
 
-    public List<Product> getShoppingCart() {
-        return shoppingCart;
-    }
-
     public void addProductToCart(Long id, String productCategory, int quantity) {
         Product product = findProduct(id, productCategory);
         for (int i = 0; i < quantity; i++) {
@@ -130,18 +124,32 @@ public class WebShopService {
     }
 
     private Product findProduct(Long id, String productCategory) {
-        switch (productCategory) {
-            case "Book" -> {
-                return bookRepository.findById(id).get();
-            }
-            case "Movie" -> {
-                return movieRepository.findById(id).get();
-            }
-            case "Game" -> {
-                return gameRepository.findById(id).get();
-            }
+        Map<String, JpaRepository<? extends Product, Long>> repositoryMap = Map.of(
+                "Book", bookRepository,
+                "Movie", movieRepository,
+                "Game", gameRepository
+        );
+
+        JpaRepository<? extends Product, Long> repository = repositoryMap.get(productCategory);
+        if (repository == null) {
+            throw new IllegalArgumentException("Invalid product category: " + productCategory);
         }
-        return null;
+        return repository.findById(id).orElseThrow(() -> new IllegalArgumentException("Product not found"));
+
+//        switch (productCategory) {
+//            case "Book" -> {
+//                return bookRepository.findById(id).get();
+//            }
+//            case "Movie" -> {
+//                return movieRepository.findById(id).get();
+//            }
+//            case "Game" -> {
+//                return gameRepository.findById(id).get();
+//            }
+//            default -> {
+//            }
+//        }
+//        return null;
     }
 
     public User getUserFromDatabase(String name) {
@@ -158,9 +166,9 @@ public class WebShopService {
         List<Product> products = new ArrayList<>(shoppingCart);
         user = getUserFromDatabase(name);
         Order order = new Order();
-        order.setBooksOrdered(getBooksFromCart(getShoppingCart()));
-        order.setGamesOrdered(getGamesFromCart(getShoppingCart()));
-        order.setMoviesOrdered(getMoviesFromCart(getShoppingCart()));
+        order.setBooksOrdered(getBooksFromCart(shoppingCart));
+        order.setGamesOrdered(getGamesFromCart(shoppingCart));
+        order.setMoviesOrdered(getMoviesFromCart(shoppingCart));
         order.setPlacedOn(LocalDateTime.now());
         order.setPaid(false);
         order.setTotalPrice(getTotalPrice());
@@ -173,22 +181,22 @@ public class WebShopService {
 
     private List<Book> getBooksFromCart(List<Product> shoppingCart) {
         return shoppingCart.stream()
-                .filter(product -> product instanceof Book)
-                .map(product -> (Book) product)
+                .filter(Book.class::isInstance)
+                .map(Book.class::cast)
                 .toList();
     }
 
     private List<Movie> getMoviesFromCart(List<Product> shoppingCart) {
         return shoppingCart.stream()
-                .filter(product -> product instanceof Movie)
-                .map(product -> (Movie) product)
+                .filter(Movie.class::isInstance)
+                .map(Movie.class::cast)
                 .toList();
     }
 
     private List<Game> getGamesFromCart(List<Product> shoppingCart) {
         return shoppingCart.stream()
-                .filter(product -> product instanceof Game)
-                .map(product -> (Game) product)
+                .filter(Game.class::isInstance)
+                .map(Game.class::cast)
                 .toList();
     }
 
@@ -212,6 +220,35 @@ public class WebShopService {
         orderRepository.save(order);
     }
 
-    public void removeProductFromCart(Long productId) {
+    public void removeProductFromCart(Long productId, String productCategory, int quantity) {
+        Product product = findProduct(productId, productCategory);
+
+        Iterator<Product> iterator = shoppingCart.iterator();
+
+        int count = 0;
+        while (iterator.hasNext() && count < quantity) {
+            Product p = iterator.next();
+            if (p.equals(product)) {
+                iterator.remove();
+                count++;
+            }
+        }
+    }
+
+    public List<Product> getShoppingCartList() {
+        return shoppingCart;
+    }
+
+    public Map<Product, Integer> getShoppingCart() {
+        Map<Product, Integer> productMap = new HashMap<>();
+        for (Product p : shoppingCart) {
+            if (productMap.containsKey(p)) {
+                productMap.put(p, productMap.get(p) + 1);
+            } else {
+                productMap.put(p, 1);
+            }
+        }
+        return productMap;
+
     }
 }

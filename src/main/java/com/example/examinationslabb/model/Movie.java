@@ -2,16 +2,19 @@ package com.example.examinationslabb.model;
 
 import jakarta.persistence.*;
 
+import java.util.Objects;
+
 @Entity
 @Table(name = "movies")
 public class Movie implements Product {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String title;
     private String director;
     private int releaseYear;
     private int price;
+    private final String category = "Movie";
 
     public Movie() {
 
@@ -65,7 +68,21 @@ public class Movie implements Product {
     }
 
     @Override
-    public String getCategory() {
-        return "Movie";
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Movie movie = (Movie) o;
+        return releaseYear == movie.releaseYear && price == movie.price && Objects.equals(id, movie.id) && Objects.equals(title, movie.title) && Objects.equals(director, movie.director) && Objects.equals(category, movie.category);
     }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, director, releaseYear, price, category);
+    }
+
+    @Override
+    public String getCategory() {
+        return category;
+    }
+
 }

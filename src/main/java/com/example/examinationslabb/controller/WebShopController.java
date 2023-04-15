@@ -3,7 +3,6 @@ package com.example.examinationslabb.controller;
 import com.example.examinationslabb.service.UserService;
 import com.example.examinationslabb.service.WebShopService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -41,17 +40,25 @@ public class WebShopController {
 
     @GetMapping("/cart")
     public String getCart(Model model) {
+        // todo fix shopping cart
+        model.addAttribute("shoppingCartList", webShopService.getShoppingCartList());
         model.addAttribute("totalPrice", webShopService.getTotalPrice());
         model.addAttribute("shoppingCart", webShopService.getShoppingCart());
         return "cart";
     }
 
-    @GetMapping("/remove-product")
+    @PostMapping("/remove-product")
     public String removeFromCart(@RequestParam Long productId,
-                                 @RequestParam String productCategory) {
+                                 @RequestParam String productCategory,
+                                 @RequestParam int quantity,
+                                 Model model) {
 
         // TODO: 2023-04-14 finish implementation of remove from cart
-        webShopService.removeProductFromCart(productId);
+
+        webShopService.removeProductFromCart(productId, productCategory, quantity);
+        model.addAttribute("shoppingCartList", webShopService.getShoppingCartList());
+        model.addAttribute("totalPrice", webShopService.getTotalPrice());
+        model.addAttribute("shoppingCart", webShopService.getShoppingCart());
         return "cart";
     }
 
@@ -61,6 +68,7 @@ public class WebShopController {
                             @RequestParam int quantity,
                             Model model) {
         webShopService.addProductToCart(productId, productCategory, quantity);
+        model.addAttribute("shoppingCartList", webShopService.getShoppingCartList());
         model.addAttribute("totalPrice", webShopService.getTotalPrice());
         model.addAttribute("shoppingCart", webShopService.getShoppingCart());
         return "cart";

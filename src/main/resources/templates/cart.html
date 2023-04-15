@@ -12,21 +12,24 @@
         <tr>
             <th>Name</th>
             <th>Price</th>
+            <th>Number of items</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="product : ${shoppingCart}">
-            <td th:text="${product.title}"></td>
-            <td th:text="'$' + ${product.price}"></td>
+        <tr th:each="entry : ${shoppingCart}">
+            <td th:text="${entry.key.title}"></td>
+            <td th:text="'$' + ${entry.key.price}"></td>
+            <td th:text="${entry.value}"></td>
             <td>
-                <form th:action="@{/post}" method="get">
-                    <input type="hidden" name="productId" th:value="${product.id}">
-                    <input type="hidden" name="productCategory" th:value="${product.getCategory()}">
+                <form th:action="@{/remove-product}" method="post">
+                    <input type ="number" id="quantity" name="quantity" min="1" th:max="${entry.value}" required>
+                    <input type="hidden" name="productId" th:value="${entry.key.id}">
+                    <input type="hidden" name="productCategory" th:value="${entry.key.getCategory()}">
                     <button type="submit">Remove</button>
                 </form>
             </td>
         </tr>
-        <tr th:if="${#lists.isEmpty(shoppingCart)}">
+        <tr th:if="${#lists.isEmpty(shoppingCartList)}">
             <td colspan="2">Your cart is empty.</td>
         </tr>
         </tbody>
@@ -36,7 +39,7 @@
 <form th:action="@{/products}" method="get">
     <button type="submit">Back to shopping</button>
 </form>
-<form th:action="@{/orders}" method="post" th:if="${not #lists.isEmpty(shoppingCart)}">
+<form th:action="@{/orders}" method="post" th:if="${not #lists.isEmpty(shoppingCartList)}">
     <button type="submit">Place Order</button>
 </form>
 
