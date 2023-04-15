@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin</title>
+</head>
+<body>
+<div>
+    <h2>Unpaid Orders</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Order Amount</th>
+            <th>Invoiced</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="order : ${unpaidOrders}">
+            <td th:text="${order.getId()}"></td>
+            <td th:text="'$' + ${order.getTotalPrice()}"></td>
+            <td th:text="${order.isPaid()}"></td>
+            <td>
+                <form th:action="@{/admin}" method="post">
+                    <input type="hidden" name="orderId" th:value="${order.getId()}">
+                    <button type="submit">Send Invoice</button>
+                </form>
+            </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(unpaidOrders)}">
+            <td colspan="2">No invoices to send.</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div>
+    <h2>Paid Orders</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Order Amount</th>
+            <th>Paid</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="order : ${paidOrders}">
+            <td th:text="${order.getId()}"></td>
+            <td th:text="'$' + ${order.getTotalPrice()}"></td>
+            <td th:text="${order.isPaid()}"></td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(paidOrders)}">
+            <td colspan="2">No paid orders.</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<form th:action="@{/home}" method="get">
+    <button type="submit">Home</button>
+</form>
+</body>
+</html>

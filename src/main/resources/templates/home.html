@@ -4,17 +4,95 @@
 <head>
     <meta charset="UTF-8">
     <title>Home</title>
+    <style>
+        /* Global styles */
+        body {
+            background-color: #333;
+            color: #fff;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Style the header */
+        header {
+            background-color: #222;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+            font-size: 36px;
+            border-bottom: 2px solid #444;
+        }
+
+        /* Style the logout button */
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+
+        /* Style the "Add new products" link */
+        .admin-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        /* Style the buttons */
+        button[type="submit"] {
+            background-color: #555;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin-top: 20px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #777;
+        }
+    </style>
 </head>
 <body>
 
-<h1>Hello <span sec:authentication="name">Username</span></h1>
+<header>Hello <span sec:authentication="name">Username</span></header>
 
 <form th:action="@{/logout}" method="post">
     <input type="submit" value="Logout">
 </form>
 
-<div sec:authorize="hasAuthority('ADMIN')">
-    <a th:href="@{/add_product}">Add new products</a>
+<form th:action="@{/products}" method="get">
+    <button type="submit">View Products</button>
+</form>
+
+<div sec:authorize="hasAuthority('ADMIN')" class="admin-link">
+    <form th:action="@{/admin}" method="get">
+        <button type="submit">Admin Page</button>
+    </form>
 </div>
+
+<form th:action="@{/cart}" method="get">
+    <button type="submit">View Cart</button>
+</form>
+
+<script>
+    const logoutBtn = document.querySelector('input[type="submit"]');
+    logoutBtn.addEventListener('click', () => {
+        const confirmLogout = confirm('Are you sure you want to logout?');
+        if (!confirmLogout) {
+            event.preventDefault();
+        }
+    });
+</script>
 </body>
 </html>

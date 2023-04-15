@@ -2,6 +2,8 @@ package com.example.examinationslabb.model;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -14,7 +16,7 @@ public class User {
     private String password;
     private UserType userType;
     @OneToMany
-    private List<Order> orders;
+    private List<Order> orders = new ArrayList<>();
 
 
     public User() {
@@ -62,5 +64,8 @@ public class User {
 
     public void setOrders(List<com.example.examinationslabb.model.Order> orders) {
         this.orders = orders;
+    }
+    public void addOrder(Order order) {
+        orders.add(order);
     }
 }

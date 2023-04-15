@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Products</title>
+</head>
+<body>
+
+<h1>Products</h1>
+<form th:action="@{/products}" method="get">
+    <label for="product-select">Select a product</label>
+    <select name="product" id="product-select">
+        <option value="books" th:selected="${param.product} == 'books'">Books</option>
+        <option value="movies" th:selected="${param.product} == 'movies'">Movies</option>
+        <option value="games" th:selected="${param.product} == 'games'">Games</option>
+    </select>
+    <input type="submit" value="View products">
+</form>
+
+<form th:action="@{/products}" method="get">
+    <label for="search-field">Search Products:</label>
+    <input type="text" name="search" id="search-field">
+    <button type="submit">Search</button>
+</form>
+
+<div th:if="${param.product != null or param.search != null}">
+    <h2>Products</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Add to Cart</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="product : ${productChoice}">
+            <td th:text="${product.title}"></td>
+            <td th:text="'$' + ${product.price}"></td>
+            <td>
+                <form th:action="@{/cart}" method="post">
+                    <label for="quantity">Quantity:</label>
+                    <input type="hidden" name="productId" th:value="${product.id}">
+                    <input type="hidden" name="productCategory" th:value="${product.getCategory()}">
+                    <input type="number" id="quantity" name="quantity" min="1" max="25" required>
+                    <button type="submit">Add to Cart</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<form th:action="@{/cart}" method="get">
+    <button type="submit">View Cart</button>
+</form>
+<form th:action="@{/home}" method="get">
+    <button type="submit">Home</button>
+</form>
+
+</body>
+</html>
