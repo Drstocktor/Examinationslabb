@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Book</title>
+</head>
+<body>
+<h1>Add Book</h1>
+<form th:object="${book}" th:action="@{/add-book}" method="post">
+    <label>Title:</label>
+    <input type="text" th:field="*{title}"><br/>
+    <label>Author:</label>
+    <input type="text" th:field="*{author}"><br/>
+    <label>Price:</label>
+    <input type="text" th:field="*{price}"><br/>
+    <input type="submit" value="Add Product">
+</form>
+<p th:text="${inputFormMessage}"></p><br/>
+<form th:action="@{/home}" method="get">
+    <button type="submit">Home</button>
+</form>
+<form th:action="@{/admin-page}" method="get">
+    <button type="submit">Admin Home</button>
+</form>
+<form th:action="@{/add-product}" method="get">
+    <button type="submit">Add a different product</button>
+</form>
+</body>
+</html>

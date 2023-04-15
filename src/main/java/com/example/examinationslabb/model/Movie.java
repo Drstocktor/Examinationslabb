@@ -1,9 +1,7 @@
 package com.example.examinationslabb.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 
 import java.util.Objects;
 
@@ -13,18 +11,17 @@ public class Movie implements Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @NotBlank
-    @Size(max = 200)
+
+    @Size(max = 500)
     private String title;
-    @NotBlank
-    @Size(max = 200)
+    @Size(max = 500)
     private String director;
-    @Size(max = 4)
-    @Pattern(regexp = "^[1-2][0-9]{3}$")
+
+    @NotNull
     private int releaseYear;
-    @NotBlank
-    @Size(max = 4)
-    @Pattern(regexp = "^[1-9][0-9]{2}$")
+
+    @Max(300)
+    @Min(1)
     private int price;
     private final String category = "Movie";
 

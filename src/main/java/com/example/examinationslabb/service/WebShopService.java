@@ -256,4 +256,16 @@ public class WebShopService {
         Product product = findProduct(productId, productCategory);
         shoppingCart.removeIf(product1 -> product1.equals(product));
     }
+
+    public void addMovie(Movie movie) {
+        movieRepository.save(movie);
+    }
+
+    public void addMovie(Book book) {
+        bookRepository.save(book);
+    }
+
+    public void addMovie(Game game) {
+        gameRepository.save(game);
+    }
 }

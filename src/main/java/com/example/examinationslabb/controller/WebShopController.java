@@ -100,22 +100,6 @@ public class WebShopController {
         return "redirect:/products";
     }
 
-    @GetMapping("/admin")
-    public String admin(Model model) {
-        // TODO: 2023-04-14 finish admin page with form to add new products
-        model.addAttribute("unpaidOrders", webShopService.getUnpaidOrders());
-        model.addAttribute("paidOrders", webShopService.getPaidOrders());
-        return "admin-page";
-    }
-
-    @PostMapping("/admin")
-    public String postAdmin(@RequestParam Long orderId, Model model) {
-        webShopService.chargeCustomer(orderId);
-        model.addAttribute("unpaidOrders", webShopService.getUnpaidOrders());
-        model.addAttribute("paidOrders", webShopService.getPaidOrders());
-        return "admin-page";
-    }
-
 //    @PreAuthorize("hasAuthority('Admin')")
 //    @GetMapping("/test")
 //    public String test() {
