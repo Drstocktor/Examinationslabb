@@ -123,7 +123,7 @@ public class WebShopService {
         }
     }
 
-    private Product findProduct(Long id, String productCategory) {
+    public Product findProduct(Long id, String productCategory) {
         Map<String, JpaRepository<? extends Product, Long>> repositoryMap = Map.of(
                 "Book", bookRepository,
                 "Movie", movieRepository,
@@ -261,11 +261,11 @@ public class WebShopService {
         movieRepository.save(movie);
     }
 
-    public void addMovie(Book book) {
+    public void addBook(Book book) {
         bookRepository.save(book);
     }
 
-    public void addMovie(Game game) {
+    public void addGame(Game game) {
         gameRepository.save(game);
     }
 }

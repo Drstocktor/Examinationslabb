@@ -69,7 +69,7 @@ public class AdminController {
         if (bindingResult.hasErrors()) {
             model.addAttribute("inputFormMessage", "Invalid input");
         } else {
-            webShopService.addMovie(book);
+            webShopService.addBook(book);
             model.addAttribute("inputFormMessage", "Product added");
         }
         return "add-book";
@@ -86,7 +86,7 @@ public class AdminController {
         if (bindingResult.hasErrors()) {
             model.addAttribute("inputFormMessage", "Invalid input");
         } else {
-            webShopService.addMovie(game);
+            webShopService.addGame(game);
             model.addAttribute("inputFormMessage", "Product added");
         }
         return "add-game";
