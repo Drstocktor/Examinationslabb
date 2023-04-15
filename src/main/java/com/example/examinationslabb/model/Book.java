@@ -1,6 +1,9 @@
 package com.example.examinationslabb.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 import java.util.Objects;
 
@@ -10,9 +13,15 @@ public class Book implements Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
+    @NotBlank
+    @Size(max = 200)
     private String title;
+    @NotBlank
+    @Size(max = 200)
     private String author;
+    @NotBlank
+    @Size(max = 4)
+    @Pattern(regexp = "^[1-9][0-9]{2}$")
     private int price;
     private final String category = "Book";
 
