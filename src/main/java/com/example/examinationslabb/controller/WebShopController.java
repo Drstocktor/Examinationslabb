@@ -52,9 +52,20 @@ public class WebShopController {
                                  @RequestParam int quantity,
                                  Model model) {
 
-        // TODO: 2023-04-14 finish implementation of remove from cart
-
         webShopService.removeProductFromCart(productId, productCategory, quantity);
+        model.addAttribute("shoppingCartList", webShopService.getShoppingCartList());
+        model.addAttribute("totalPrice", webShopService.getTotalPrice());
+        model.addAttribute("shoppingCart", webShopService.getShoppingCart());
+        return "cart";
+    }
+
+    @PostMapping("/cart-add-product")
+    public String cartAddProduct(@RequestParam Long productId,
+                                 @RequestParam String productCategory,
+                                 @RequestParam int quantity,
+                                 Model model) {
+
+        webShopService.addProductToCart(productId, productCategory, quantity);
         model.addAttribute("shoppingCartList", webShopService.getShoppingCartList());
         model.addAttribute("totalPrice", webShopService.getTotalPrice());
         model.addAttribute("shoppingCart", webShopService.getShoppingCart());

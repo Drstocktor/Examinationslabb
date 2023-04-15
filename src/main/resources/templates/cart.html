@@ -21,8 +21,16 @@
             <td th:text="'$' + ${entry.key.price}"></td>
             <td th:text="${entry.value}"></td>
             <td>
+                <form th:action="@{/cart-add-product}" method="post">
+                    <input type="number" id="quantity-add" name="quantity" min="1" th:max="100" required>
+                    <input type="hidden" name="productId" th:value="${entry.key.id}">
+                    <input type="hidden" name="productCategory" th:value="${entry.key.getCategory()}">
+                    <button type="submit">Add</button>
+                </form>
+            </td>
+            <td>
                 <form th:action="@{/remove-product}" method="post">
-                    <input type="number" id="quantity" name="quantity" min="1" th:max="${entry.value}" required>
+                    <input type="number" id="quantity-remove" name="quantity" min="1" th:max="${entry.value}" required>
                     <input type="hidden" name="productId" th:value="${entry.key.id}">
                     <input type="hidden" name="productCategory" th:value="${entry.key.getCategory()}">
                     <button type="submit">Remove</button>
