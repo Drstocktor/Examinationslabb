@@ -162,8 +162,8 @@ public class WebShopService {
                 .sum();
     }
 
-    public List<Product> placeOrder(String name) {
-        List<Product> products = new ArrayList<>(shoppingCart);
+    public Map<Product, Integer> placeOrder(String name) {
+        Map<Product, Integer> shoppingCartMap = getShoppingCart();
         user = getUserFromDatabase(name);
         Order order = new Order();
         order.setBooksOrdered(getBooksFromCart(shoppingCart));
@@ -176,7 +176,7 @@ public class WebShopService {
         user.addOrder(order);
         user = userRepository.save(user);
         shoppingCart.clear();
-        return products;
+        return shoppingCartMap;
     }
 
     private List<Book> getBooksFromCart(List<Product> shoppingCart) {
@@ -250,5 +250,10 @@ public class WebShopService {
         }
         return productMap;
 
+    }
+
+    public void removeAllOfCertainProductFromCart(Long productId, String productCategory) {
+        Product product = findProduct(productId, productCategory);
+        shoppingCart.removeIf(product1 -> product1.equals(product));
     }
 }

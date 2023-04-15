@@ -40,7 +40,6 @@ public class WebShopController {
 
     @GetMapping("/cart")
     public String getCart(Model model) {
-        // todo fix shopping cart
         model.addAttribute("shoppingCartList", webShopService.getShoppingCartList());
         model.addAttribute("totalPrice", webShopService.getTotalPrice());
         model.addAttribute("shoppingCart", webShopService.getShoppingCart());
@@ -56,6 +55,17 @@ public class WebShopController {
         // TODO: 2023-04-14 finish implementation of remove from cart
 
         webShopService.removeProductFromCart(productId, productCategory, quantity);
+        model.addAttribute("shoppingCartList", webShopService.getShoppingCartList());
+        model.addAttribute("totalPrice", webShopService.getTotalPrice());
+        model.addAttribute("shoppingCart", webShopService.getShoppingCart());
+        return "cart";
+    }
+
+    @PostMapping("/remove-all-products")
+    public String removeAllProducts(@RequestParam Long productId,
+                                    @RequestParam String productCategory,
+                                    Model model) {
+        webShopService.removeAllOfCertainProductFromCart(productId, productCategory);
         model.addAttribute("shoppingCartList", webShopService.getShoppingCartList());
         model.addAttribute("totalPrice", webShopService.getTotalPrice());
         model.addAttribute("shoppingCart", webShopService.getShoppingCart());
