@@ -1,6 +1,7 @@
 package com.example.examinationslabb.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 
 import java.util.Objects;
 
@@ -10,9 +11,17 @@ public class Movie implements Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    @Size(max = 500)
     private String title;
+    @Size(max = 500)
     private String director;
+
+    @NotNull
     private int releaseYear;
+
+    @Max(300)
+    @Min(1)
     private int price;
     private final String category = "Movie";
 

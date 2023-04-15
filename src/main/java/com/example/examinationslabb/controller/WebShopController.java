@@ -52,9 +52,20 @@ public class WebShopController {
                                  @RequestParam int quantity,
                                  Model model) {
 
-        // TODO: 2023-04-14 finish implementation of remove from cart
-
         webShopService.removeProductFromCart(productId, productCategory, quantity);
+        model.addAttribute("shoppingCartList", webShopService.getShoppingCartList());
+        model.addAttribute("totalPrice", webShopService.getTotalPrice());
+        model.addAttribute("shoppingCart", webShopService.getShoppingCart());
+        return "cart";
+    }
+
+    @PostMapping("/cart-add-product")
+    public String cartAddProduct(@RequestParam Long productId,
+                                 @RequestParam String productCategory,
+                                 @RequestParam int quantity,
+                                 Model model) {
+
+        webShopService.addProductToCart(productId, productCategory, quantity);
         model.addAttribute("shoppingCartList", webShopService.getShoppingCartList());
         model.addAttribute("totalPrice", webShopService.getTotalPrice());
         model.addAttribute("shoppingCart", webShopService.getShoppingCart());
@@ -98,22 +109,6 @@ public class WebShopController {
     @GetMapping("/orders")
     public String getOrders() {
         return "redirect:/products";
-    }
-
-    @GetMapping("/admin")
-    public String admin(Model model) {
-        // TODO: 2023-04-14 finish admin page with form to add new products
-        model.addAttribute("unpaidOrders", webShopService.getUnpaidOrders());
-        model.addAttribute("paidOrders", webShopService.getPaidOrders());
-        return "admin-page";
-    }
-
-    @PostMapping("/admin")
-    public String postAdmin(@RequestParam Long orderId, Model model) {
-        webShopService.chargeCustomer(orderId);
-        model.addAttribute("unpaidOrders", webShopService.getUnpaidOrders());
-        model.addAttribute("paidOrders", webShopService.getPaidOrders());
-        return "admin-page";
     }
 
 //    @PreAuthorize("hasAuthority('Admin')")
